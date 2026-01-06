@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo, useRef, useEffect, Fragment, useCallback } from 'react';
 import { strategicThrusts, foundationThrust, kpis as allKpis } from '../../assets/strategicData';
 import type { Initiative, ChecklistPhase } from '../../types';
@@ -89,7 +88,6 @@ const parseDate = (dateString: string): Date | null => {
   const parts = dateString.split('/');
   if (parts.length !== 3) return null;
   const [day, month, year] = parts.map(Number);
-  // Fixed typo 'iNaN' to 'isNaN' below
   if (isNaN(day) || isNaN(month) || isNaN(year)) return null;
   return new Date(year, month - 1, day);
 };
@@ -396,6 +394,15 @@ export const TimelineContent: React.FC<TimelineContentProps> = ({ initiatives, i
         if (onEditInitiative) onEditInitiative(init);
     };
 
+    // Mini Metallic Tier Badge Styles
+    const getMiniTierStyle = (tier?: string) => {
+        if (tier === 'Thrust 1') return 'bg-[#FFD700]/10 border-[#FFD700]/40 text-[#FFD700]';
+        if (tier === 'Thrust 2') return 'bg-[#E2E8F0]/10 border-[#E2E8F0]/40 text-[#E2E8F0]';
+        if (tier === 'Thrust 3') return 'bg-[#CD7F32]/10 border-[#CD7F32]/40 text-[#CD7F32]';
+        if (tier === 'ENABLER') return 'bg-cyan-500/10 border-cyan-500/50 text-cyan-200';
+        return 'bg-white/5 border-white/10 text-text-muted';
+    };
+
     return (
         <div className="space-y-10">
             <div className="text-center mb-8"><h2 className="text-3xl font-bold text-text-primary mb-4">Master Timeline & Gantt Chart</h2><p className="text-text-secondary max-w-4xl mx-auto">Reschedule initiatives by dragging bars. View dependencies and critical paths to manage implementation risks effectively.</p></div>
@@ -442,7 +449,7 @@ export const TimelineContent: React.FC<TimelineContentProps> = ({ initiatives, i
                                         const progPos = calcBarPosition(aS, new Date(aS!.getTime() + ((cE!.getTime() - cS!.getTime()) * (initiative.progress / 100))));
                                         return (
                                             <div key={initiative.id} className={`flex border-b border-white/5 group min-h-[56px] hover:bg-white/5 transition-colors cursor-pointer ${isCrit ? 'bg-red-900/10' : ''}`} onClick={() => !isDraggingBar && !isPanning && setModalInitiative(initiative)}>
-                                                <div style={{ width: `${labelWidth}%` }} className="flex-shrink-0 p-3 border-r border-border flex flex-col justify-center min-w-0"><div className="flex items-center gap-2 mb-0.5"><p className={`font-semibold truncate text-xs ${isCrit ? 'text-red-400' : 'text-text-primary'}`}>{initiative.id}</p>{initiative.tier && <span className="text-[8px] font-black px-1.5 py-0.5 rounded border border-white/10 uppercase tracking-tighter text-text-muted">{initiative.tier}</span>}</div><p className="text-[10px] text-text-secondary leading-tight break-words" title={initiative.name}>{initiative.name}</p></div>
+                                                <div style={{ width: `${labelWidth}%` }} className="flex-shrink-0 p-3 border-r border-border flex flex-col justify-center min-w-0"><div className="flex items-center gap-2 mb-0.5"><p className={`font-semibold truncate text-xs ${isCrit ? 'text-red-400' : 'text-text-primary'}`}>{initiative.id}</p>{initiative.tier && <span className={`text-[8px] font-black px-1.5 py-0.5 rounded border uppercase tracking-tighter ${getMiniTierStyle(initiative.tier)}`}>{initiative.tier}</span>}</div><p className="text-[10px] text-text-secondary leading-tight break-words" title={initiative.name}>{initiative.name}</p></div>
                                                 <div style={{ width: `${100 - labelWidth}%` }} className="relative flex flex-col justify-center px-2 gap-1 py-1"><div className="relative w-full h-3 group/bar" onMouseEnter={(e) => handleBarMouseEnter(e, initiative)} onMouseLeave={() => setTooltip(p => ({...p, visible: false}))}>
                                                     <div ref={el => { if (el) rowRefs.current.set(initiative.id, el); }} className={`absolute h-full rounded-sm border transition-colors ${isBeingDragged ? 'bg-blue-600/80 z-10' : 'bg-surface-light'} ${isCrit ? 'border-red-500' : 'border-white/10'}`} style={planPos} onMouseDown={(e) => { if (isAdminMode && onUpdateDates) { e.stopPropagation(); handleDragStart(e, initiative, 'move'); } }}>
                                                         {isAdminMode && <><div className="absolute left-0 top-0 bottom-0 w-2 cursor-w-resize z-20" onMouseDown={(e) => { e.stopPropagation(); handleDragStart(e, initiative, 'resize-start'); }} /><GripHorizontal className="w-3 h-3 text-white/30 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover/bar:opacity-100" /><div className="absolute right-0 top-0 bottom-0 w-2 cursor-e-resize z-20" onMouseDown={(e) => { e.stopPropagation(); handleDragStart(e, initiative, 'resize-end'); }} /></>}

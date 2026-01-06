@@ -119,7 +119,7 @@ export const tierMilestones: TierMilestone[] = [
       "Operationalization of the Project Court and Safety Tribunal",
       "Stabilizers for JKR Infrastructure Base"
     ],
-    color: "bg-yellow-900/50 border-yellow-500 text-yellow-200"
+    color: "bg-yellow-900/40 border-[#FFD700] text-[#FFD700] shadow-[0_0_20px_rgba(255,215,0,0.15)]"
   },
   {
     tier: "Thrust 2: Performance Accelerator",
@@ -129,7 +129,7 @@ export const tierMilestones: TierMilestone[] = [
       "Cost Data Bank Operational",
       "Integrated Digital Workflows"
     ],
-    color: "bg-slate-800/50 border-slate-400 text-slate-200"
+    color: "bg-slate-800/60 border-[#E2E8F0] text-[#E2E8F0] shadow-[0_0_20px_rgba(226,232,240,0.1)]"
   },
   {
     tier: "Thrust 3: Future-Ready Leap",
@@ -139,7 +139,7 @@ export const tierMilestones: TierMilestone[] = [
       "Global Benchmarking & Strategic Awards",
       "Sovereignty via Domestic Regional Links"
     ],
-    color: "bg-orange-950/50 border-orange-700 text-orange-200"
+    color: "bg-orange-950/50 border-[#CD7F32] text-[#CD7F32] shadow-[0_0_20px_rgba(205,127,50,0.15)]"
   },
   {
     tier: "ENABLER: Enabling Ecosystem",

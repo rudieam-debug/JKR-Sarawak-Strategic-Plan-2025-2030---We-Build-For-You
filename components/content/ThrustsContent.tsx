@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import type { Initiative, StrategicThrust } from '../../types';
 import { ChevronRight, Edit, Trash2, PlusCircle, NotebookText, Building, Target, ClipboardList, Filter, Search, RotateCcw, TrendingUp, AlertTriangle, CheckCircle, Calendar, ChevronDown, ChevronUp, BookOpen, ShieldAlert, Coins, Trophy, Users, Link as LinkIcon, LayoutGrid, List, FileText, User, Briefcase, Layers, CheckCircle2, Flag, History } from 'lucide-react';
@@ -127,12 +126,12 @@ export const ThrustsContent: React.FC<ThrustsContentProps> = ({ isAdminMode, can
       const sortedHistory = initiative.progressHistory ? [...initiative.progressHistory].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()) : [];
       const lastUpdateDate = sortedHistory.length > 0 ? sortedHistory[0].date : null;
 
-      // Metal-themed Tier Badge Styling
+      // Premium Metallic Tier Badge Styling
       const getTierBadgeStyle = (tier?: string) => {
-          if (tier === 'Thrust 1') return 'bg-yellow-500/20 border-yellow-500/50 text-yellow-200 shadow-[0_0_10px_rgba(234,179,8,0.2)]';
-          if (tier === 'Thrust 2') return 'bg-slate-400/20 border-slate-400/50 text-slate-200 shadow-[0_0_10px_rgba(148,163,184,0.2)]';
-          if (tier === 'Thrust 3') return 'bg-orange-700/20 border-orange-700/50 text-orange-200 shadow-[0_0_10px_rgba(194,65,12,0.2)]';
-          if (tier === 'ENABLER') return 'bg-cyan-500/20 border-cyan-500/50 text-cyan-200 shadow-[0_0_12px_rgba(6,182,212,0.3)]';
+          if (tier === 'Thrust 1') return 'bg-[#FFD700]/10 border-[#FFD700]/40 text-[#FFD700] shadow-[0_0_12px_rgba(255,215,0,0.15)]';
+          if (tier === 'Thrust 2') return 'bg-[#E2E8F0]/10 border-[#E2E8F0]/40 text-[#E2E8F0] shadow-[0_0_12px_rgba(226,232,240,0.1)]';
+          if (tier === 'Thrust 3') return 'bg-[#CD7F32]/10 border-[#CD7F32]/40 text-[#CD7F32] shadow-[0_0_12px_rgba(205,127,50,0.15)]';
+          if (tier === 'ENABLER') return 'bg-cyan-500/10 border-cyan-500/50 text-cyan-200 shadow-[0_0_12px_rgba(6,182,212,0.3)]';
           return 'bg-surface-light border-border text-text-secondary';
       };
 
