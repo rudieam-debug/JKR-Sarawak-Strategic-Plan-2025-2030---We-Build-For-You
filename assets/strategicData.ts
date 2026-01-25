@@ -162,8 +162,38 @@ export const LEADERSHIP_PROFILE = {
 
 export const initiativesData: Initiative[] = [
   // --- PILLAR 1: INFRASTRUCTURE DELIVERY EXCELLENCE (31 ITEMS) ---
-  { id: '1.1.1', thrustId: 1, tier: 'Thrust 1', name: 'Develop JKR Project Delivery Playbook', lead: 'Technical Services Sector', responsibleBranch: 'PIMB', expectedOutcome: 'Digitally and physically published Playbook, 100% of PMIB staff certified.', plan_start: '01/01/2026', plan_end: '31/12/2026', actual_start: '', actual_end: '', progress: 0, linkedKpiIds: ['KPI-9'] },
-  { id: '1.1.2', thrustId: 1, tier: 'Thrust 1', name: 'Standardised Guidelines for Detailed Project Briefs', lead: 'Technical Services Sector', responsibleBranch: 'PIMB', expectedOutcome: 'Mandatory Pre-design Checklist and Standardised Brief Guidelines.', plan_start: '01/01/2026', plan_end: '31/12/2026', actual_start: '', actual_end: '', progress: 0, linkedKpiIds: ['KPI-2'] },
+  { 
+    id: '1.1.1', 
+    thrustId: 1, 
+    tier: 'Thrust 1', 
+    name: 'Develop JKR Project Delivery Playbook', 
+    lead: 'Technical Services Sector', 
+    responsibleBranch: 'PIMB', 
+    description: 'To create a single "Scripture" for project management, eliminating inconsistencies in quality and documentation across divisions.',
+    expectedOutcome: 'Digitally and physically published Playbook, 100% of PMIB staff certified on its contents.', 
+    plan_start: '01/01/2026', 
+    plan_end: '31/12/2026', 
+    actual_start: '', 
+    actual_end: '', 
+    progress: 0, 
+    linkedKpiIds: ['KPI-9'] 
+  },
+  { 
+    id: '1.1.2', 
+    thrustId: 1, 
+    tier: 'Thrust 1', 
+    name: 'Standardised Guidelines for Detailed Project Briefs', 
+    lead: 'Technical Services Sector', 
+    responsibleBranch: 'PIMB', 
+    description: 'Establishment of a rigorous framework for project scoping to eliminate late-stage variation orders. This includes mandating pre-design site audits, utility coordination, and stakeholder requirement locking.',
+    expectedOutcome: 'Mandatory Pre-design Checklist and Standardised Brief Guidelines operationalized; 25% reduction in Variation Orders (VO) related to scoping errors.', 
+    plan_start: '01/01/2026', 
+    plan_end: '31/12/2026', 
+    actual_start: '', 
+    actual_end: '', 
+    progress: 0, 
+    linkedKpiIds: ['KPI-2'] 
+  },
   { id: '1.1.3', thrustId: 1, tier: 'Thrust 1', name: 'Mandate Project Execution Plans (PEPs)', lead: 'Technical Services Sector', responsibleBranch: 'PIMB', expectedOutcome: '100% of new projects have signed-off PEPs uploaded to JKR Dash.', plan_start: '01/01/2025', plan_end: '31/12/2027', actual_start: '01/01/2025', actual_end: '', progress: 15, linkedKpiIds: ['KPI-1'] },
   { id: '1.1.4', thrustId: 1, tier: 'Thrust 2', name: 'Waive Material Testing & Review Authority for Non-Critical Projects', lead: 'QAQC Sector', responsibleBranch: 'Compliance Branch', expectedOutcome: 'Amended MTRA Circular issued; Average project start times reduced by 3 weeks.', plan_start: '01/01/2028', plan_end: '31/12/2028', actual_start: '', actual_end: '', progress: 0 },
   { id: '1.1.5', thrustId: 1, tier: 'Thrust 2', name: 'Establish Expert Value Management Team for Major Projects', lead: 'Support Sector', responsibleBranch: 'Quantity Surveying Branch', expectedOutcome: 'Permanent VM Unit established; 10% average cost savings identified.', plan_start: '01/01/2026', plan_end: '31/12/2027', actual_start: '', actual_end: '', progress: 0, linkedKpiIds: ['KPI-2'] },
