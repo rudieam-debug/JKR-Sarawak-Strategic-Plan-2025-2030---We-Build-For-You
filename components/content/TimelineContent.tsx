@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo, useRef, useEffect, Fragment, useCallback } from 'react';
 import { strategicThrusts, foundationThrust, kpis as allKpis } from '../../assets/strategicData';
 import type { Initiative, ChecklistPhase } from '../../types';
@@ -34,6 +35,8 @@ import {
 } from 'lucide-react';
 import { getChecklistForInitiative } from '../../data/checklistData';
 import { motion, AnimatePresence } from 'framer-motion';
+
+const MotionDiv = motion.div as any;
 
 interface TimelineContentProps {
     initiatives: Initiative[];
@@ -167,8 +170,8 @@ const InitiativeDetailModal: React.FC<InitiativeDetailModalProps> = ({ initiativ
     }, [initiative]);
 
     return (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-background/80 backdrop-blur-md" onClick={onClose}>
-            <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }} className="bg-surface w-full max-w-4xl max-h-[90vh] rounded-2xl shadow-2xl border border-white/10 overflow-hidden flex flex-col" onClick={e => e.stopPropagation()}>
+        <MotionDiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-background/80 backdrop-blur-md" onClick={onClose}>
+            <MotionDiv initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }} className="bg-surface w-full max-w-4xl max-h-[90vh] rounded-2xl shadow-2xl border border-white/10 overflow-hidden flex flex-col" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
                 <div className="p-6 border-b border-white/10 flex justify-between items-start bg-surface-light/30">
                     <div>
                         <div className="flex items-center gap-3 mb-2">
@@ -243,8 +246,8 @@ const InitiativeDetailModal: React.FC<InitiativeDetailModalProps> = ({ initiativ
                     <div className="flex gap-4"><span className="flex items-center gap-1"><Clock className="w-3 h-3" /> Start: {initiative.plan_start}</span><span className="flex items-center gap-1"><Target className="w-3 h-3" /> Target: {initiative.plan_end}</span></div>
                     <span>JKR Sarawak Moving Forward Strategy</span>
                 </div>
-            </motion.div>
-        </motion.div>
+            </MotionDiv>
+        </MotionDiv>
     );
 };
 

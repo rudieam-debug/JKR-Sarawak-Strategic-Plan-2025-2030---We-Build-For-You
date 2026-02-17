@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { PDFDownloadButton } from './PDFDownloadButton';
 import { AdminModeToggle } from './AdminModeToggle';
@@ -7,6 +8,8 @@ import { Edit, Save, X, LibraryBig, Link, CheckCircle, RotateCcw, Search, Messag
 import { Logo } from './Logo';
 import { useAuth } from '../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
+
+const MotionDiv = motion.div as any;
 
 interface HeaderProps {
   isAdminMode: boolean;
@@ -182,7 +185,7 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Mobile Title Branding (Centered below the banner strip) */}
       <AnimatePresence>
         {!scrolled && (
-          <motion.div 
+          <MotionDiv 
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
@@ -193,7 +196,7 @@ export const Header: React.FC<HeaderProps> = ({
               alt="Strategy Title" 
               className="h-12 w-auto object-contain drop-shadow-md"
             />
-          </motion.div>
+          </MotionDiv>
         )}
       </AnimatePresence>
     </div>

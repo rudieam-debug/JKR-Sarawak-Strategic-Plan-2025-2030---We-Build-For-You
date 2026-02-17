@@ -1,8 +1,12 @@
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { LiveMetric, ProjectLocation, LiveProjectUpdate, LiveFeedback } from '../../types';
 import { GaugeChart } from '../GaugeChart';
 import { ArrowUp, ArrowDown, Rss, Zap, TrendingDown, Star, Construction } from 'lucide-react';
+
+const MotionDiv = motion.div as any;
+const MotionG = motion.g as any;
 
 interface LiveDashboardContentProps {
     metrics: LiveMetric[];
@@ -95,7 +99,7 @@ export const LiveDashboardContent: React.FC<LiveDashboardContentProps> = ({ metr
                 const colorClass = metric.color === 'blue' ? 'text-blue-400' : metric.color === 'green' ? 'text-green-400' : metric.color === 'purple' ? 'text-purple-400' : 'text-yellow-400';
                 const bgClass = metric.color === 'blue' ? 'bg-blue-500/20' : metric.color === 'green' ? 'bg-green-500/20' : metric.color === 'purple' ? 'bg-purple-500/20' : 'bg-yellow-500/20';
                 return (
-                    <motion.div key={metric.title} whileHover={{ y: -5 }} className="bg-surface p-6 rounded-xl shadow-lg border border-border">
+                    <MotionDiv key={metric.title} whileHover={{ y: -5 }} className="bg-surface p-6 rounded-xl shadow-lg border border-border">
                         <div className="flex items-start justify-between">
                             <div>
                                 <p className="text-sm font-medium text-text-secondary">{metric.title}</p>
@@ -111,7 +115,7 @@ export const LiveDashboardContent: React.FC<LiveDashboardContentProps> = ({ metr
                                 <Icon className={`w-6 h-6 ${colorClass}`} />
                             </div>
                         </div>
-                    </motion.div>
+                    </MotionDiv>
                 );
             })}
         </div>
@@ -137,11 +141,11 @@ export const LiveDashboardContent: React.FC<LiveDashboardContentProps> = ({ metr
                         <svg viewBox="0 0 400 250" className="w-full h-full"><path d="M12.8 194.2c.4-2 .2-2.3-1-3.6-1-1-1-1.3-1-3.4s.3-2.6 1.2-3c2-1 2.3-1.6 2.3-5 0-3-.5-4-2.8-5.6-3-2-3-2.3-1.2-5.4.8-1.5 2-2.7 2.7-2.7s1.3-1.4 1.3-3.2c0-1.7-.5-3.2-1-3.2s-.6-1.5-1-3.2c-1-3.6-1-3.8.5-6.6 1-1.8 1.4-3.6 1.4-6s-.4-4.2-1.3-6.4c-1.3-3.3-1.3-3.4.2-6.5.8-1.7 1-3.4 1-5.3 0-4-1.3-6.2-4.4-7.4-2.2-.8-2.6-.6-3.7 1.7-.8 1.6-1.7 2-2.7 1.3-1.6-1.2-1.6-1.2 1.3-3.5 2.2-1.7 2.4-1.7 5 .5 1.5 1.3 3 2.7 3.5 3.3.3.4.6.3 1.2-1.4 1-3 2-4 2.3-2.4.6-.7 1-2.4 1-3.8 0-1.6.4-3.2 1-3.6.8-.5 1-1.4 1-2.2 0-.8.6-1.4 1.8-1.7l1.7-.4 1.3 1c.7.6 1.7 1 2.2 1 .5 0 1.5.7 2.2 1.5l1.3 1.5 3.2.3c2.4.2 3.3.6 4.6 2 1.5 1.7 1.6 1.7 4.5.7 2.3-.8 3-1 4.5-1 2.4 0 2.6.2 3.7 3.2.7 1.8 1.5 3.7 1.8 4.2.3.5.8 1.4 1 2 .3.6 1 2 1.5 3 .6 1 1.5 2.5 2 3.3.5.8 1.4 2 2 2.6s1.6 1.6 2.2 2.2c1.4 1.4 1.5 1.4 3 .8 1.3-.5 2.2-1 3.2-1.6 2-1.4 3.7-2 5.5-2 1.3 0 2.6.5 4 1.4 2.8 2 3 2 5.4 1.6 1.3-.2 2.4-.6 3.4-1.2 2.3-1.4 3.3-1.6 5.8-1.6 2.2 0 2.7.2 4.2 1.6 1.5 1.5 1.7 1.5 4 .8 2-.6 2.6-.6 4.8 0 2.2.6 2.7.6 5 0 1.6-.4 3-.8 4.6-1.2 2.4-.4 3.5.5 5.5 2.2 1.3 1.3 2 1.5 2.5.3 1 .8 1.5 2.4.7 1-.5 2-1 2.7-1 .7 0 1.7.5 2.6 1.2 1.3 1 1.7 1 3.3 0 1.2-.7 2.5-1.3 3.6-1.5 2-1 3-1.2 5.6-1.2 2.7 0 3.2.2 5.5 2s4 3 4.6 2.5c.3-.3.8-1.3 1-2.3.3-1.2.6-2.5.8-3 .4-1 .7-1.3 2.3-2.2 1.3-.7 2.2-1.5 2.7-2.2.5-.7 1.3-2 1.8-2.8s1.2-2 1.5-2.8c.3-.8.8-1.8 1-2.2.3-.4 1-1.4 1.5-2.2s1.3-2 1.7-2.8c1-2.3 1.2-2.3 4.2-1 2 .8 2.8 1 4.4 1s2.4-.2 3.4-1c1.5-1.3 1.6-1.3 3.6.3 1.3 1 2.2 1.6 2.8 1.6.7 0 1.5.5 2 1.2.6.7 1.5 1.6 2 2 .5.4 1.4 1 2 1.3.6.3 1.7.8 2.5 1.1 1.4.5 1.6.5 3.3-.4 1.2-.6 2.4-1.3 3.2-1.7.8-.4 2-.8 2.6-1 .6-.2 1.6-.6 2.3-1 .6-.4 1.7-1 2.4-1.4.6-.4 1.8-1 2.6-1.4 1.3-.6 1.7-.6 3.6.4 1.3.7 2.2 1.5 2.7 2.2.5.7 1.4-2-2-2.8s-1.5-2.2-2-3.2c-.5-1-1.4-2.5-2-3.3s-1.4-2.2-2-3.2c-.6-1-1.5-2.5-2-3.3-1-2.3-1-2.4.2-5.5.7-1.7 1-3.4 1-5.3 0-2-.4-4.2-1.4-6.4-1.4-3.3-1.3-3.4.2-6.5.8-1.7 1-3.4 1-5.3 0-2-.4-4.2-1.4-6.4z" className="fill-surface-light" /></svg>
                         <AnimatePresence>
                         {filteredLocations.map(loc => (
-                             <motion.g key={loc.id} initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} onClick={() => setActiveLocation(loc)} className="cursor-pointer group/map-pin absolute" style={{ left: `${loc.coordinates.x}%`, top: `${loc.coordinates.y}%` }}>
+                             <MotionG key={loc.id} initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} onClick={() => setActiveLocation(loc)} className="cursor-pointer group/map-pin absolute" style={{ left: `${loc.coordinates.x}%`, top: `${loc.coordinates.y}%` }}>
                                 <circle r="6" className={`${statusClasses[loc.status].stroke} ${statusClasses[loc.status].fill} opacity-30 group-hover/map-pin:opacity-50`} />
                                 <circle r="3" className={`${statusClasses[loc.status].fill} ${statusClasses[loc.status].stroke} stroke-2`} />
                                 {loc.status !== 'completed' && <circle r="3" className={`${statusClasses[loc.status].fill} animate-ping`} />}
-                            </motion.g>
+                            </MotionG>
                         ))}
                         </AnimatePresence>
                     </div>
@@ -180,11 +184,11 @@ export const LiveDashboardContent: React.FC<LiveDashboardContentProps> = ({ metr
                     <div className="space-y-3 h-[28rem] overflow-y-auto pr-2">
                         <AnimatePresence initial={false}>
                         {liveUpdates.map(update => (
-                            <motion.div key={update.id} layout initial={{ opacity: 0, y: -20, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, x: 20, scale: 0.9 }} transition={{ duration: 0.5 }} className="text-sm p-3 bg-surface-light rounded-lg">
+                            <MotionDiv key={update.id} layout initial={{ opacity: 0, y: -20, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, x: 20, scale: 0.9 }} transition={{ duration: 0.5 }} className="text-sm p-3 bg-surface-light rounded-lg">
                                 <div className="flex justify-between items-start"><p className="font-semibold text-text-primary">{update.projectId}</p><span className="text-xs text-text-muted">{update.timestamp}</span></div>
                                 <p className="text-text-secondary my-1">{update.update}</p>
                                 <span className={`text-xs font-bold px-2 py-0.5 rounded-full inline-block ${updateStatusClasses[update.status]}`}>{update.status}</span>
-                            </motion.div>
+                            </MotionDiv>
                         ))}
                         </AnimatePresence>
                     </div>

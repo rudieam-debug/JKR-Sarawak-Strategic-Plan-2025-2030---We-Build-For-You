@@ -1,9 +1,12 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Bot, User, Send, CornerDownLeft, Loader2 } from 'lucide-react';
 import type { ChatMessage } from '../types';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+
+const MotionDiv = motion.div as any;
 
 interface AIChatBotProps {
   isOpen: boolean;
@@ -44,7 +47,7 @@ export const AIChatBot: React.FC<AIChatBotProps> = ({ isOpen, onClose, onSendMes
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 50, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 50, scale: 0.9 }}
@@ -130,7 +133,7 @@ export const AIChatBot: React.FC<AIChatBotProps> = ({ isOpen, onClose, onSendMes
               </button>
             </form>
           </footer>
-        </motion.div>
+        </MotionDiv>
       )}
     </AnimatePresence>
   );

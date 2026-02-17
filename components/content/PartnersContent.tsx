@@ -5,6 +5,9 @@ import { Handshake, Calendar, Trash2, PlusCircle, Building2, Image as ImageIcon 
 import type { Partner } from '../../types';
 import { EditableText } from '../EditableText';
 
+const MotionDiv = motion.div as any;
+const MotionButton = motion.button as any;
+
 interface PartnersContentProps {
   isAdminMode?: boolean;
   partners: Partner[];
@@ -23,13 +26,13 @@ export const PartnersContent: React.FC<PartnersContentProps> = ({
   return (
     <div className="space-y-12">
       <div className="text-center">
-          <motion.div 
+          <MotionDiv 
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             className="w-20 h-20 rounded-full bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-500 shadow-[0_0_50px_rgba(59,130,246,0.15)] mx-auto mb-6"
           >
               <Handshake className="w-10 h-10" />
-          </motion.div>
+          </MotionDiv>
           <h2 className="text-4xl font-black text-text-primary uppercase tracking-tighter">Strategic Partners</h2>
           <p className="text-text-secondary max-w-2xl mt-3 mx-auto">
             Collaboration is at the heart of our strategy. We partner with leading financial, educational, and digital institutions to drive Sarawak's infrastructure forward.
@@ -38,7 +41,7 @@ export const PartnersContent: React.FC<PartnersContentProps> = ({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
         {partners.map((partner, idx) => (
-          <motion.div 
+          <MotionDiv 
             key={partner.id}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -111,11 +114,11 @@ export const PartnersContent: React.FC<PartnersContentProps> = ({
                     </button>
                 </div>
             )}
-          </motion.div>
+          </MotionDiv>
         ))}
 
         {isAdminMode && (
-             <motion.button 
+             <MotionButton 
                 onClick={onAddPartner}
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
@@ -123,7 +126,7 @@ export const PartnersContent: React.FC<PartnersContentProps> = ({
              >
                 <PlusCircle className="w-8 h-8" />
                 <span className="font-black text-base uppercase tracking-tighter">Add Strategic Partner</span>
-             </motion.button>
+             </MotionButton>
         )}
       </div>
       

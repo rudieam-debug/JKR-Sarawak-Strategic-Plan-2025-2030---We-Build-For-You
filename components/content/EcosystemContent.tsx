@@ -6,6 +6,8 @@ import type { Initiative } from '../../types';
 import { getInitiativeStatus } from '../../utils/analysis';
 import { InitiativeProgressBar } from '../InitiativeProgressBar';
 
+const MotionDiv = motion.div as any;
+
 interface EcosystemContentProps {
   initiatives: Initiative[];
   isAdminMode?: boolean;
@@ -39,7 +41,7 @@ export const EcosystemContent: React.FC<EcosystemContentProps> = ({ initiatives,
   const renderCard = (initiative: Initiative) => {
       const { status, icon: StatusIcon, textColor, bg, border } = getInitiativeStatus(initiative);
       return (
-          <motion.div 
+          <MotionDiv 
             key={initiative.id} 
             whileHover={{ y: -5 }}
             className="bg-surface rounded-xl p-5 border border-white/5 shadow-lg relative overflow-hidden group"
@@ -66,7 +68,7 @@ export const EcosystemContent: React.FC<EcosystemContentProps> = ({ initiatives,
                     Update Status
                   </button>
               )}
-          </motion.div>
+          </MotionDiv>
       );
   };
 

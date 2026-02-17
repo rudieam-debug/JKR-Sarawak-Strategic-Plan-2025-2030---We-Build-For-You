@@ -5,6 +5,9 @@ import { Trophy, Medal, Star, ShieldCheck, Globe, Award, Trash2, PlusCircle, Cal
 import type { Achievement } from '../../types';
 import { EditableText } from '../EditableText';
 
+const MotionDiv = motion.div as any;
+const MotionButton = motion.button as any;
+
 interface AchievementsContentProps {
   isAdminMode?: boolean;
   achievements: Achievement[];
@@ -34,13 +37,13 @@ export const AchievementsContent: React.FC<AchievementsContentProps> = ({
   return (
     <div className="space-y-12">
       <div className="text-center">
-          <motion.div 
+          <MotionDiv 
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             className="w-20 h-20 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-500 shadow-[0_0_50px_rgba(245,158,11,0.15)] mx-auto mb-6"
           >
               <Trophy className="w-10 h-10" />
-          </motion.div>
+          </MotionDiv>
           <h2 className="text-4xl font-black text-text-primary uppercase tracking-tighter">Strategic Achievements</h2>
           <p className="text-text-secondary max-w-2xl mt-3 mx-auto">
             Celebrating JKR Sarawak's milestones of excellence, from local impact to global recognition. Our commitment to world-class standards reflected in every accolade.
@@ -49,7 +52,7 @@ export const AchievementsContent: React.FC<AchievementsContentProps> = ({
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {achievements.map((achievement, idx) => (
-          <motion.div 
+          <MotionDiv 
             key={achievement.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -142,11 +145,11 @@ export const AchievementsContent: React.FC<AchievementsContentProps> = ({
 
             {/* Glowing Accent */}
             <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          </motion.div>
+          </MotionDiv>
         ))}
 
         {isAdminMode && (
-             <motion.button 
+             <MotionButton 
                 onClick={onAddAchievement}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -154,7 +157,7 @@ export const AchievementsContent: React.FC<AchievementsContentProps> = ({
              >
                 <PlusCircle className="w-12 h-12 mb-4 opacity-50" />
                 <span className="font-black text-lg uppercase tracking-tighter">Add New Achievement</span>
-             </motion.button>
+             </MotionButton>
         )}
       </div>
       

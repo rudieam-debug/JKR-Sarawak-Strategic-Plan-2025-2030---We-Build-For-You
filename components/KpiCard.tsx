@@ -1,10 +1,11 @@
 
 import React, { useMemo } from 'react';
-import { Edit, Trash2, Link, TrendingUp, AlertTriangle, CheckCircle, Calendar, ArrowUp, ArrowDown, Minus, Unlock } from 'lucide-react';
+import { Edit, Trash2, Link, TrendingUp, AlertTriangle, CheckCircle, Calendar, ArrowUp, ArrowDown, Minus, Unlock, Info } from 'lucide-react';
 
 type DerivedKpi = {
     type: 'initiative' | 'manual';
     name: string;
+    description?: string;
     target: string;
     current: string;
     targetValue: number;
@@ -12,6 +13,8 @@ type DerivedKpi = {
     percentage: number;
     history: any[];
     actual_end?: string;
+    plan_end?: string;
+    plan_start?: string;
     isLinked: boolean;
 };
 
@@ -48,7 +51,7 @@ export const KpiCard: React.FC<KpiCardProps> = ({ kpi, isAdminMode, onEdit, onDe
         <div className={`group relative bg-surface border border-white/10 rounded-2xl p-5 hover:border-white/20 transition-all duration-300 shadow-lg flex flex-col gap-4`}>
             {/* Admin Controls */}
             {isAdminMode && (
-                <div className="absolute top-4 right-4 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute top-4 right-4 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
                     <button onClick={onEdit} className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-text-secondary hover:text-white transition-colors"><Edit className="w-4 h-4" /></button>
                     <button onClick={onDelete} className="p-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 transition-colors"><Trash2 className="w-4 h-4" /></button>
                 </div>
@@ -60,9 +63,16 @@ export const KpiCard: React.FC<KpiCardProps> = ({ kpi, isAdminMode, onEdit, onDe
                     <status.icon className="w-3 h-3" />
                     {status.label}
                 </div>
-                <h3 className="text-lg font-bold text-text-primary leading-tight line-clamp-2 min-h-[3rem]" title={kpi.name}>
-                    {kpi.name}
-                </h3>
+                <div>
+                    <h3 className="text-lg font-bold text-text-primary leading-tight line-clamp-2" title={kpi.name}>
+                        {kpi.name}
+                    </h3>
+                    {kpi.description && (
+                        <p className="text-xs text-text-secondary mt-1 line-clamp-2" title={kpi.description}>
+                            {kpi.description}
+                        </p>
+                    )}
+                </div>
             </div>
 
             {/* Progress Section */}
@@ -83,10 +93,10 @@ export const KpiCard: React.FC<KpiCardProps> = ({ kpi, isAdminMode, onEdit, onDe
                     <p className="text-sm font-bold text-text-primary">{kpi.current}</p>
                 </div>
                 <div className="text-right">
-                    <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-0.5">Deadline</p>
+                    <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-0.5">Target Deadline</p>
                     <p className={`text-sm font-bold flex items-center justify-end gap-1 ${isOverdue ? 'text-primary' : 'text-text-secondary'}`}>
                         <Calendar className="w-3.5 h-3.5" />
-                        {kpi.actual_end || 'N/A'}
+                        {kpi.plan_end || kpi.actual_end || 'N/A'}
                     </p>
                 </div>
             </div>

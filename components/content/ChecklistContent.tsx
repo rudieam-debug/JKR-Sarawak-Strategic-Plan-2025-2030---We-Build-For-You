@@ -8,6 +8,8 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { ConfirmActionModal } from '../ConfirmActionModal';
 
+const MotionDiv = motion.div as any;
+
 interface ChecklistContentProps {
   isAdminMode: boolean;
   initiatives: Initiative[];
@@ -292,7 +294,7 @@ export const ChecklistContent: React.FC<ChecklistContentProps> = ({
         {/* Right Panel: Checklist Details */}
         <main className="lg:w-2/3 xl:w-3/4">
           <AnimatePresence mode="wait">
-            <motion.div
+            <MotionDiv
               key={selectedInitiativeId || 'empty'}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -389,7 +391,7 @@ export const ChecklistContent: React.FC<ChecklistContentProps> = ({
                     </p>
                 </div>
               )}
-            </motion.div>
+            </MotionDiv>
           </AnimatePresence>
         </main>
       </div>

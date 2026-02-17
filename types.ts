@@ -45,6 +45,7 @@ export interface KPIHistory {
 export interface KPI {
   id: string; // Added ID for formal linking
   name: string;
+  description?: string; // Context/Description for the KPI
   target: string;
   current: string;
   targetValue: number;
@@ -276,10 +277,17 @@ export interface RiskProfile {
 }
 
 // Task List Type
+export interface SubTask {
+  id: string;
+  text: string;
+  completed: boolean;
+}
+
 export interface Task {
   id: string;
   text: string;
   completed: boolean;
   priority: 'low' | 'medium' | 'high';
   createdAt: string;
+  subtasks?: SubTask[];
 }

@@ -6,6 +6,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Info, X, Maximize2 } from 'lucide-react';
 import type { WelcomePageContent } from '../../types';
 
+const MotionDiv = motion.div as any;
+const MotionH1 = motion.h1 as any;
+
 interface WelcomeContentProps {
   isAdminMode?: boolean;
   pageContent?: WelcomePageContent;
@@ -44,7 +47,7 @@ export const WelcomeContent: React.FC<WelcomeContentProps> = ({ isAdminMode = fa
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px] pointer-events-none animate-pulse-slow z-0" style={{ animationDelay: '2s' }}></div>
 
         {/* Bentley Winner Badge */}
-        <motion.div 
+        <MotionDiv 
             initial={{ opacity: 0, scale: 0.5, rotate: 15 }}
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
             transition={{ duration: 0.8, delay: 1, type: "spring" }}
@@ -55,11 +58,11 @@ export const WelcomeContent: React.FC<WelcomeContentProps> = ({ isAdminMode = fa
                 alt="Bentley 2025 Going Digital Award Winner" 
                 className="w-full h-full object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] animate-float"
             />
-        </motion.div>
+        </MotionDiv>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pb-12">
             <div className="flex flex-col items-center text-center mb-10">
-                 <motion.div 
+                 <MotionDiv 
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
@@ -71,19 +74,19 @@ export const WelcomeContent: React.FC<WelcomeContentProps> = ({ isAdminMode = fa
                         alt="JKR Sarawak Logo" 
                         className="h-40 md:h-64 w-auto relative z-10 drop-shadow-2xl" 
                     />
-                 </motion.div>
+                 </MotionDiv>
 
-                 <motion.h1 
+                 <MotionH1 
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
                     className="text-6xl md:text-8xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-200 to-slate-400 mb-8 drop-shadow-lg"
                  >
                     WELCOME
-                 </motion.h1>
+                 </MotionH1>
             </div>
 
-            <motion.div 
+            <MotionDiv 
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
@@ -134,19 +137,19 @@ export const WelcomeContent: React.FC<WelcomeContentProps> = ({ isAdminMode = fa
                          </button>
                     </div>
                 </div>
-            </motion.div>
+            </MotionDiv>
         </div>
 
         {/* House of Pillars Modal */}
         <AnimatePresence>
             {showHouseOfPillars && (
-                <motion.div 
+                <MotionDiv 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-10 bg-background/90 backdrop-blur-xl"
                 >
-                    <motion.div 
+                    <MotionDiv 
                         initial={{ scale: 0.9, y: 20 }}
                         animate={{ scale: 1, y: 0 }}
                         exit={{ scale: 0.9, y: 20 }}
@@ -173,8 +176,8 @@ export const WelcomeContent: React.FC<WelcomeContentProps> = ({ isAdminMode = fa
                                 <span className="text-xs font-bold text-white uppercase tracking-widest">Strategy Framework Diagram</span>
                             </div>
                         </div>
-                    </motion.div>
-                </motion.div>
+                    </MotionDiv>
+                </MotionDiv>
             )}
         </AnimatePresence>
     </div>

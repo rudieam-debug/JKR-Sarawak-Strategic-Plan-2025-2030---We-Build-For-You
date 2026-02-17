@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { X, Save, PlusCircle, Trash2, Edit, AlertCircle, Link, Unlock, Lock } from 'lucide-react';
+import { X, Save, PlusCircle, Trash2, Edit, AlertCircle, Link, Unlock, Lock, FileText } from 'lucide-react';
 import type { KPI, KPIHistory, Initiative } from '../types';
 
 interface KpiModalProps {
@@ -29,6 +29,7 @@ const formatDateForSave = (isoDate: string): string => {
 const emptyKpi: KPI = {
   id: '',
   name: '',
+  description: '',
   target: '',
   current: '',
   targetValue: 100,
@@ -79,6 +80,7 @@ export const KpiModal: React.FC<KpiModalProps> = ({ isOpen, onClose, onSave, kpi
           setKpiData(prev => ({
               ...prev,
               name: `${init.id}: ${init.name}`,
+              description: init.expectedOutcome || prev.description,
               current: `${init.progress}% Complete`,
               target: '100% Complete',
               currentValue: init.progress,
@@ -100,7 +102,7 @@ export const KpiModal: React.FC<KpiModalProps> = ({ isOpen, onClose, onSave, kpi
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    if (name.includes('Date')) {
+    if (name.includes('Date') || name === 'plan_start' || name === 'plan_end' || name === 'actual_start' || name === 'actual_end') {
         setKpiData(prev => ({...prev, [name]: formatDateForSave(value)}));
     } else {
         setKpiData(prev => ({ ...prev, [name]: value }));
@@ -200,7 +202,7 @@ export const KpiModal: React.FC<KpiModalProps> = ({ isOpen, onClose, onSave, kpi
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-slate-300">KPI Name</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">KPI Name</label>
             <input 
                 name="name" 
                 value={kpiData.name} 
@@ -208,6 +210,20 @@ export const KpiModal: React.FC<KpiModalProps> = ({ isOpen, onClose, onSave, kpi
                 disabled={isLinked}
                 className="mt-1 w-full bg-white dark:bg-slate-700 p-2 rounded border border-gray-300 dark:border-slate-600 focus:outline-none focus:ring-1 focus:ring-red-500 disabled:bg-gray-100 dark:disabled:bg-slate-800 disabled:text-gray-500 disabled:cursor-not-allowed" 
                 placeholder="e.g., Public Satisfaction Score" 
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 flex items-center gap-2">
+                <FileText className="w-3.5 h-3.5"/> Description
+            </label>
+            <textarea 
+                name="description" 
+                value={kpiData.description || ''} 
+                onChange={handleInputChange} 
+                rows={2}
+                className="mt-1 w-full bg-white dark:bg-slate-700 p-2 rounded border border-gray-300 dark:border-slate-600 focus:outline-none focus:ring-1 focus:ring-red-500" 
+                placeholder="Briefly describe the metric and its strategic relevance..." 
             />
           </div>
 

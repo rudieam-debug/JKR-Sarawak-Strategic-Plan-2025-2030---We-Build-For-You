@@ -5,6 +5,8 @@ import { navItems as allNavItems } from '../assets/strategicData';
 import type { NavItem } from '../types';
 import { ChevronDown, Zap } from 'lucide-react';
 
+const MotionDiv = motion.div as any;
+
 interface NavigationProps {
   activeSection: string;
   setActiveSection: (sectionId: string) => void;
@@ -75,7 +77,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                   `}
                 >
                   {isGroupActive && (
-                    <motion.div
+                    <MotionDiv
                       layoutId="activeNavBackground"
                       className="absolute inset-0 bg-primary/10 border border-primary/20 rounded-xl shadow-[inset_0_0_12px_rgba(227,24,55,0.1)]"
                       transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
@@ -98,7 +100,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                 {/* Modern Mega-Dropdown Menu */}
                 <AnimatePresence>
                   {hoveredId === item.id && hasChildren && (
-                    <motion.div
+                    <MotionDiv
                       initial={{ opacity: 0, y: 15, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
@@ -142,7 +144,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                           );
                         })}
                       </div>
-                    </motion.div>
+                    </MotionDiv>
                   )}
                 </AnimatePresence>
               </div>
@@ -154,7 +156,7 @@ export const Navigation: React.FC<NavigationProps> = ({
       {/* Mobile Navigation Menu Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, x: '100%' }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
@@ -229,7 +231,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                   </div>
                </div>
             </div>
-          </motion.div>
+          </MotionDiv>
         )}
       </AnimatePresence>
     </nav>

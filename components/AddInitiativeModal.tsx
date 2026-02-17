@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { X, PlusCircle, Calendar, FileText, User } from 'lucide-react';
+import { X, PlusCircle, Calendar, FileText, User, Info } from 'lucide-react';
 import type { Initiative, ProgressUpdate } from '../types';
 import { strategicThrusts } from '../assets/strategicData';
 
@@ -31,6 +31,7 @@ const formatDateForInput = (date: Date): string => {
 export const AddInitiativeModal: React.FC<AddInitiativeModalProps> = ({ isOpen, onClose, onSave, thrustId, initiatives }) => {
   const [localThrustId, setLocalThrustId] = useState<number>(1);
   const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
   const [lead, setLead] = useState('');
   const [plan_start, setPlanStart] = useState('');
   const [plan_end, setPlanEnd] = useState('');
@@ -62,6 +63,7 @@ export const AddInitiativeModal: React.FC<AddInitiativeModalProps> = ({ isOpen, 
     if (isOpen) {
       setLocalThrustId(thrustId || 1);
       setName('');
+      setDescription('');
       setLead('');
       const today = new Date();
       const oneYearFromNow = new Date();
@@ -140,6 +142,7 @@ export const AddInitiativeModal: React.FC<AddInitiativeModalProps> = ({ isOpen, 
       id: code,
       thrustId: localThrustId,
       name,
+      description: description.trim(),
       lead: lead.trim(),
       plan_start: formatDate(new Date(plan_start)),
       plan_end: formatDate(new Date(plan_end)),
@@ -203,6 +206,20 @@ export const AddInitiativeModal: React.FC<AddInitiativeModalProps> = ({ isOpen, 
                 required
                 placeholder="Enter initiative name"
               />
+          </div>
+
+          <div>
+            <label htmlFor="add-description" className="block text-sm font-medium text-text-secondary flex items-center gap-2">
+               <Info className="w-4 h-4" /> Description
+            </label>
+            <textarea
+                id="add-description"
+                rows={2}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="mt-1 block w-full bg-background border border-border rounded-md shadow-sm py-2 px-3 text-text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                placeholder="Briefly describe the scope and objectives..."
+            />
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -316,4 +333,3 @@ export const AddInitiativeModal: React.FC<AddInitiativeModalProps> = ({ isOpen, 
     </div>
   );
 };
-    

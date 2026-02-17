@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { getInitiativeStatus } from '../utils/analysis';
 import type { Initiative } from '../types';
 
+const MotionDiv = motion.div as any;
+
 interface InitiativeProgressBarProps {
   initiative: Initiative;
   className?: string;
@@ -40,7 +42,7 @@ export const InitiativeProgressBar: React.FC<InitiativeProgressBarProps> = ({
         </div>
       )}
       <div className={`w-full ${heightClass} bg-background rounded-full overflow-hidden shadow-inner`}>
-        <motion.div 
+        <MotionDiv 
           initial={{ width: 0 }} 
           animate={{ width: `${initiative.progress}%` }} 
           transition={{ duration: 1, ease: "easeOut" }}

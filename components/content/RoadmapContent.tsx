@@ -5,6 +5,8 @@ import { CheckCircle, Edit, Trash2, PlusCircle, Check, X, Flag, ChevronDown, Che
 import type { TierMilestone, Initiative } from '../../types';
 import { InitiativeProgressBar } from '../InitiativeProgressBar';
 
+const MotionDiv = motion.div as any;
+
 interface RoadmapContentProps {
   isAdminMode?: boolean;
   milestones: TierMilestone[];
@@ -163,21 +165,21 @@ export const RoadmapContent: React.FC<RoadmapContentProps> = ({ isAdminMode, mil
                                 <div className={`w-3 h-3 rounded-full ${tier.color.replace('/50', '')}`}></div>
                             </div>
                             
-                            <motion.div 
+                            <MotionDiv 
                                 layout
                                 className={`
                                 ml-14 md:ml-0 md:w-5/12 p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 ${tier.color}
                                 ${isRightSide ? 'md:ml-auto' : 'md:mr-auto'}
                                 `}
                             >
-                                <motion.div layout="position" className="font-bold mb-4 pb-3 border-b-2 border-current flex justify-between items-center cursor-pointer" onClick={() => toggleTierExpansion(tierIndex)}>
+                                <MotionDiv layout="position" className="font-bold mb-4 pb-3 border-b-2 border-current flex justify-between items-center cursor-pointer" onClick={() => toggleTierExpansion(tierIndex)}>
                                     <h3 className="text-2xl font-black uppercase tracking-tight">{tier.tier}</h3>
                                     {isExpanded ? <ChevronUp className="w-6 h-6" /> : <ChevronDown className="w-6 h-6" />}
-                                </motion.div>
+                                </MotionDiv>
                                 
                                 <AnimatePresence>
                                 {isExpanded && (
-                                    <motion.div
+                                    <MotionDiv
                                         initial={{ opacity: 0, height: 0 }}
                                         animate={{ opacity: 1, height: 'auto' }}
                                         exit={{ opacity: 0, height: 0 }}
@@ -220,10 +222,10 @@ export const RoadmapContent: React.FC<RoadmapContentProps> = ({ isAdminMode, mil
                                             </ul>
                                         </div>
                                         )}
-                                    </motion.div>
+                                    </MotionDiv>
                                 )}
                                 </AnimatePresence>
-                            </motion.div>
+                            </MotionDiv>
                         </div>
                     );
                 })}

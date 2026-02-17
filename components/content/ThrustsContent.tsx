@@ -1,10 +1,13 @@
+
 import React, { useState, useMemo } from 'react';
 import type { Initiative, StrategicThrust } from '../../types';
-import { ChevronRight, Edit, Trash2, PlusCircle, NotebookText, Building, Target, ClipboardList, Filter, Search, RotateCcw, TrendingUp, AlertTriangle, CheckCircle, Calendar, ChevronDown, ChevronUp, BookOpen, ShieldAlert, Coins, Trophy, Users, Link as LinkIcon, LayoutGrid, List, FileText, User, Briefcase, Layers, CheckCircle2, Flag, History } from 'lucide-react';
+import { ChevronRight, Edit, Trash2, PlusCircle, NotebookText, Building, Target, ClipboardList, Filter, Search, RotateCcw, TrendingUp, AlertTriangle, CheckCircle, Calendar, ChevronDown, ChevronUp, BookOpen, ShieldAlert, Coins, Trophy, Users, Link as LinkIcon, LayoutGrid, List, FileText, User, Briefcase, Layers, CheckCircle2, Flag, History, ArrowUp, ArrowDown, ArrowUpDown } from 'lucide-react';
 import { strategicThrusts, foundationThrust } from '../../assets/strategicData';
 import { motion, AnimatePresence } from 'framer-motion';
 import { InitiativeProgressBar } from '../InitiativeProgressBar';
-import { getInitiativeStatus, parseDate } from '../../utils/analysis';
+import { getInitiativeStatus, parseDate, calculateRisk } from '../../utils/analysis';
+
+const MotionDiv = motion.div as any;
 
 interface ThrustsContentProps {
   isAdminMode?: boolean;
@@ -54,6 +57,9 @@ export const ThrustsContent: React.FC<ThrustsContentProps> = ({ isAdminMode, can
   const [selectedLead, setSelectedLead] = useState<string>('all');
   const [selectedTier, setSelectedTier] = useState<string>('all');
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
+  const [sortKey, setSortKey] = useState<string>('none');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  
   const [expandedDetails, setExpandedDetails] = useState<Set<string>>(new Set());
   const [expandedStrategic, setExpandedStrategic] = useState<Set<string>>(new Set());
 
@@ -78,7 +84,7 @@ export const ThrustsContent: React.FC<ThrustsContentProps> = ({ isAdminMode, can
 
   const filteredInitiatives = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
-    return initiatives.filter(initiative => {
+    let result = initiatives.filter(initiative => {
       const searchMatch = query === '' ||
         initiative.name.toLowerCase().includes(query) ||
         initiative.id.toLowerCase().includes(query) ||
@@ -92,7 +98,38 @@ export const ThrustsContent: React.FC<ThrustsContentProps> = ({ isAdminMode, can
       const statusMatch = selectedStatus === 'all' || getInitiativeStatus(initiative).status === selectedStatus;
       return searchMatch && thrustMatch && leadMatch && tierMatch && statusMatch;
     });
-  }, [searchQuery, selectedThrustId, selectedLead, selectedTier, selectedStatus, initiatives]);
+
+    if (sortKey !== 'none') {
+        result.sort((a, b) => {
+            let valA: any, valB: any;
+            
+            switch(sortKey) {
+                case 'plan_start':
+                case 'plan_end':
+                    valA = parseDate(a[sortKey])?.getTime() || 0;
+                    valB = parseDate(b[sortKey])?.getTime() || 0;
+                    break;
+                case 'progress':
+                    valA = a.progress;
+                    valB = b.progress;
+                    break;
+                case 'riskLevel':
+                    const riskOrder = { 'High': 3, 'Medium': 2, 'Low': 1 };
+                    valA = riskOrder[calculateRisk(a).level] || 0;
+                    valB = riskOrder[calculateRisk(b).level] || 0;
+                    break;
+                default:
+                    return 0;
+            }
+
+            if (valA < valB) return sortDirection === 'asc' ? -1 : 1;
+            if (valA > valB) return sortDirection === 'asc' ? 1 : -1;
+            return 0;
+        });
+    }
+
+    return result;
+  }, [searchQuery, selectedThrustId, selectedLead, selectedTier, selectedStatus, initiatives, sortKey, sortDirection]);
   
   const initiativesByThrust = useMemo(() => {
     return filteredInitiatives.reduce((acc: Record<number, Initiative[]>, initiative: Initiative) => {
@@ -117,6 +154,12 @@ export const ThrustsContent: React.FC<ThrustsContentProps> = ({ isAdminMode, can
     setSelectedLead('all');
     setSelectedTier('all');
     setSelectedStatus('all');
+    setSortKey('none');
+    setSortDirection('asc');
+  };
+
+  const toggleSortDirection = () => {
+      setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc');
   };
 
   const renderInitiative = (initiative: Initiative, thrustColor: string) => {
@@ -136,7 +179,7 @@ export const ThrustsContent: React.FC<ThrustsContentProps> = ({ isAdminMode, can
       };
 
       return (
-        <motion.div layout key={initiative.id} className={`bg-surface rounded-xl overflow-hidden border shadow-lg transition-all duration-300 ${isDetailsOpen ? 'border-primary/30 ring-1 ring-primary/20' : 'border-border hover:border-white/20 hover:shadow-xl'}`}>
+        <MotionDiv layout key={initiative.id} className={`bg-surface rounded-xl overflow-hidden border shadow-lg transition-all duration-300 ${isDetailsOpen ? 'border-primary/30 ring-1 ring-primary/20' : 'border-border hover:border-white/20 hover:shadow-xl'}`}>
           <div className="p-4 cursor-pointer" onClick={() => toggleDetails(initiative.id)}>
               <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
                   <div className="flex-grow min-w-0">
@@ -171,7 +214,7 @@ export const ThrustsContent: React.FC<ThrustsContentProps> = ({ isAdminMode, can
           </div>
           <AnimatePresence>
               {isDetailsOpen && (
-                  <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="border-t border-white/5 bg-black/20">
+                  <MotionDiv initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="border-t border-white/5 bg-black/20">
                       <div className="p-6">
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm mb-4">
                               <div className="space-y-4">
@@ -196,7 +239,7 @@ export const ThrustsContent: React.FC<ThrustsContentProps> = ({ isAdminMode, can
                           <div className="flex justify-start"><button onClick={(e) => toggleStrategic(e, initiative.id)} className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-xs font-bold text-primary transition-all">{isStrategicOpen ? <ChevronUp className="w-4 h-4"/> : <ChevronDown className="w-4 h-4"/>}{isStrategicOpen ? 'Hide Detail View' : 'View Strategic Context'}</button></div>
                           <AnimatePresence>
                               {isStrategicOpen && (
-                                  <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
+                                  <MotionDiv initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
                                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm pt-4 mt-2 border-t border-dashed border-white/10">
                                           <div className="space-y-4">
                                               <div className="grid grid-cols-2 gap-4">
@@ -213,15 +256,15 @@ export const ThrustsContent: React.FC<ThrustsContentProps> = ({ isAdminMode, can
                                               {initiative.notes && <div><h5 className="text-xs font-bold uppercase text-text-muted mb-1 flex items-center gap-2"><FileText className="w-3 h-3"/> Managerial Notes</h5><p className="text-text-secondary whitespace-pre-wrap bg-amber-500/5 p-3 rounded-lg border border-amber-500/20">{initiative.notes}</p></div>}
                                           </div>
                                       </div>
-                                  </motion.div>
+                                  </MotionDiv>
                               )}
                           </AnimatePresence>
                           {isAdminMode && (<div className="flex gap-3 pt-6 border-t border-white/5 mt-4"><button onClick={(e) => { e.stopPropagation(); onEditInitiative?.(initiative); }} className="flex-1 py-2 bg-surface border border-white/10 hover:bg-white/5 rounded-lg text-text-secondary hover:text-white transition-colors flex items-center justify-center gap-2"><Edit className="w-4 h-4"/> Edit / Update</button>{canDelete && (<button onClick={(e) => { e.stopPropagation(); onDeleteInitiative?.(initiative.id); }} className="flex-1 py-2 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 rounded-lg text-red-400 transition-colors flex items-center justify-center gap-2"><Trash2 className="w-4 h-4"/> Delete</button>)}</div>)}
                       </div>
-                  </motion.div>
+                  </MotionDiv>
               )}
           </AnimatePresence>
-        </motion.div>
+        </MotionDiv>
       );
   };
 
@@ -241,7 +284,7 @@ export const ThrustsContent: React.FC<ThrustsContentProps> = ({ isAdminMode, can
                 <input type="text" placeholder="Search by ID, Name, Description or Outcome..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="w-full bg-surface border border-white/20 rounded-xl pl-10 pr-4 py-2.5 text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all shadow-inner" />
             </div>
             
-            <div className="w-full lg:w-auto flex gap-2 overflow-x-auto pb-2 lg:pb-0 scrollbar-hide items-center">
+            <div className="w-full lg:w-auto flex flex-wrap gap-2 items-center">
                 <div className="relative min-w-[140px]">
                     <select value={selectedThrustId} onChange={e => setSelectedThrustId(e.target.value)} className="w-full appearance-none bg-surface border border-white/20 rounded-xl pl-4 pr-10 py-2.5 text-sm text-text-primary focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none cursor-pointer hover:bg-surface-light transition-colors shadow-sm">
                       <option value="all">All Pillars</option>
@@ -257,7 +300,36 @@ export const ThrustsContent: React.FC<ThrustsContentProps> = ({ isAdminMode, can
                     </select>
                     <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none" />
                 </div>
-                <button onClick={handleResetFilters} className="p-2.5 text-text-secondary hover:text-primary hover:bg-white/10 rounded-xl transition-colors flex-shrink-0"><RotateCcw className="w-5 h-5"/></button>
+                <div className="relative min-w-[140px]">
+                    <select value={selectedStatus} onChange={e => setSelectedStatus(e.target.value)} className="w-full appearance-none bg-surface border border-white/20 rounded-xl pl-4 pr-10 py-2.5 text-sm text-text-primary focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none cursor-pointer hover:bg-surface-light transition-colors shadow-sm">
+                        <option value="all">All Statuses</option>
+                        <option value="On Track">On Track</option>
+                        <option value="Ahead of Schedule">Ahead</option>
+                        <option value="At Risk">At Risk</option>
+                        <option value="Overdue">Overdue</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Not Started">Not Started</option>
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none" />
+                </div>
+                <div className="flex gap-2">
+                    <div className="relative min-w-[120px]">
+                        <select value={sortKey} onChange={e => setSortKey(e.target.value)} className="w-full appearance-none bg-surface border border-white/20 rounded-xl pl-4 pr-10 py-2.5 text-sm text-text-primary focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none cursor-pointer hover:bg-surface-light transition-colors shadow-sm">
+                            <option value="none">Sort By</option>
+                            <option value="plan_start">Plan Start</option>
+                            <option value="plan_end">Plan End</option>
+                            <option value="progress">Progress</option>
+                            <option value="riskLevel">Risk Level</option>
+                        </select>
+                        <ArrowUpDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-text-muted pointer-events-none" />
+                    </div>
+                    {sortKey !== 'none' && (
+                        <button onClick={toggleSortDirection} className="p-2.5 bg-surface border border-white/20 rounded-xl text-text-secondary hover:text-primary hover:bg-surface-light transition-colors">
+                            {sortDirection === 'asc' ? <ArrowUp className="w-5 h-5"/> : <ArrowDown className="w-5 h-5"/>}
+                        </button>
+                    )}
+                </div>
+                <button onClick={handleResetFilters} className="p-2.5 text-text-secondary hover:text-primary hover:bg-white/10 rounded-xl transition-colors flex-shrink-0" title="Reset Filters"><RotateCcw className="w-5 h-5"/></button>
             </div>
         </div>
       </div>
